@@ -75,7 +75,29 @@ class Person {
           + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
   */
 
-class Car {}
+class Car {
+  constructor(model, milesPerGallon) {
+    this.model = model;
+    this.milesPerGallon = milesPerGallon;
+    this.tank = 0;
+    this.odometer = 0;
+  }
+  fill(gallons) {
+    this.tank = this.tank + gallons;
+  }
+
+  drive(distance) {
+    const galNeeded = distance / this.milesPerGallon;
+    if (galNeeded > this.tank) {
+      this.odometer = this.odometer + this.milesPerGallon * this.tank;
+      this.tank = 0;
+      return `I ran out of fuel at ${this.odometer} miles!`;
+    } else {
+      this.odometer = this.odometer + distance;
+      this.tank = this.tank - galNeeded;
+    }
+  }
+}
 
 /*
     TASK 3
@@ -89,7 +111,13 @@ class Car {}
           + Speaking should return a phrase `Hello my name is {name}, I am from {location}`.
           + {name} and {location} of course come from the instance's own properties.
   */
-class Lambdasian {}
+class Lambdasian {
+  constructor(attributes) {
+    this.name = attributes.name;
+    this.age = attributes.age;
+    this.location = attributes.location;
+  }
+}
 
 /*
     TASK 4
