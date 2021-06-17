@@ -136,6 +136,11 @@ class Lambdasian {
           + `demo` receives a `subject` string as an argument and returns the phrase 'Today we are learning about {subject}' where subject is the param passed in.
           + `grade` receives a `student` object and a `subject` string as arguments and returns '{student.name} receives a perfect score on {subject}'
   */
+
+const randInt = function (lim1, lim2) {
+  return Math.floor(Math.random() * (lim2 + 1 - lim1) + lim1);
+};
+
 class Instructor extends Lambdasian {
   constructor(attributes) {
     super(attributes);
@@ -151,7 +156,15 @@ class Instructor extends Lambdasian {
   grade(student, subject) {
     return `${student.name} receives a perfect score on ${subject}`;
   }
+
+  changeStudentGrade(student) {
+    const distTo100 = 100 - student.grade;
+    const distTo0 = -1 * student.grade;
+    const gradeAdjustment = randInt(distTo0, distTo100);
+    student.grade = student.grade + gradeAdjustment;
+  }
 }
+
 /*
     TASK 5
       - Write a Student class extending Lambdasian.
@@ -167,12 +180,14 @@ class Instructor extends Lambdasian {
           + `PRAssignment` a method that receives a subject as an argument and returns `student.name has submitted a PR for {subject}`
           + `sprintChallenge` similar to PRAssignment but returns `student.name has begun sprint challenge on {subject}`
   */
+
 class Student extends Lambdasian {
   constructor(object) {
     super(object);
     this.previousBackground = object.previousBackground;
     this.className = object.className;
     this.favSubjects = object.favSubjects;
+    this.grade = Math.floor(Math.random() * 100) + 1;
   }
   listSubjects() {
     return `Loving ${this.favSubjects.join(", ")}!`;
@@ -184,6 +199,14 @@ class Student extends Lambdasian {
 
   sprintChallenge(subject) {
     return `${this.name} has begun sprint challenge on ${subject}`;
+  }
+
+  graduate() {
+    if (this.grade >= 70) {
+      return `${this.name} has graduated with a grade of ${this.grade}/100.`;
+    } else {
+      return `${this.name} has a grade of ${this.grade}, this is not enough to graduate.`;
+    }
   }
 }
 
@@ -200,7 +223,20 @@ class Student extends Lambdasian {
           + `standUp` a method that takes in a slack channel and returns `{name} announces to {channel}, @channel standy times!`
           + `debugsCode` a method that takes in a student object and a subject and returns `{name} debugs {student.name}'s code on {subject}`
   */
-class ProjectManager {}
+class ProjectManager extends Instructor {
+  constructor(attributes) {
+    super(attributes);
+    this.gradClassName = attributes.gradClassName;
+    this.favInstructor = attributes.favInstructor;
+  }
+  standUp(channel) {
+    return `${this.name} announces to ${channel}, @channel standby times!`;
+  }
+
+  debugsCode(student, subject) {
+    return `${this.name} debugs ${student.name}'s code on ${subject}`;
+  }
+}
 /*
     STRETCH PROBLEM (no tests!)
       - Extend the functionality of the Student by adding a prop called grade and setting it equal to a number between 1-100.
@@ -210,6 +246,20 @@ class ProjectManager {}
         + If the student's grade is above a 70% let them graduate! Otherwise go back to grading their assignments to increase their score.
   */
 
+//Experiment with create objects from these classes :
+
+// const pablo = new Student({ name: "Pablo", age: 23, location: "Pittsburgh" });
+// const larry = new Instructor({
+//   name: "Larry",
+//   age: 32,
+//   location: "San Fran",
+// });
+// console.log(larry);
+// console.log(pablo.grade);
+// larry.changeStudentGrade(pablo);
+// console.log(pablo.grade);
+// console.log(pablo.graduate());
+// console.log(pablo.name);
 //End of Challenge
 /* 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 Please do not modify anything below this line 🛑🛑🛑🛑🛑🛑🛑🛑🛑🛑 */
 function foo() {
